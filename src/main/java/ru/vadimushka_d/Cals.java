@@ -10,63 +10,102 @@ import java.math.RoundingMode;
  * @version 1.0
  */
 class Cals {
+
     /**
-     * Метод сложения чисел
-     *
      * @param a слагаемое
      * @param b слагаемое
-     * @return возвращает сумму
+     * @return String result
+     */
+    static String Sum(String a, String b) {
+        double a_double = Double.parseDouble(a);
+        double b_double = Double.parseDouble(b);
+
+        double result = Sum(a_double, b_double);
+        if (result % 1 == 0) {
+            return String.valueOf((long) result);
+        }
+        return String.valueOf(result);
+    }
+
+    /**
+     * @param a слагаемое
+     * @param b слагаемое
+     * @return Double result
      */
     static double Sum(double a, double b) {
         return a + b;
     }
 
     /**
-     * Метод вычитания чисел
-     *
      * @param a вычитаемое
      * @param b вычитатель
-     * @return возвращает результат вычитания
+     * @return String result
+     */
+    static String Subtraction(String a, String b){
+        double a_double = Double.parseDouble(a);
+        double b_double = Double.parseDouble(b);
+
+        double result = Subtraction(a_double, b_double);
+        if (result % 1 == 0) {
+            return String.valueOf((long) result);
+        }
+        return String.valueOf(result);
+    }
+
+    /**
+     * @param a вычитаемое
+     * @param b вычитатель
+     * @return Double result
      */
     static double Subtraction(double a, double b) {
         return a - b;
     }
 
     /**
-     * Метод умножения чисел
-     *
      * @param a множитель
      * @param b множитель
-     * @return возвращает произведение
+     * @return String result
+     */
+    static String Multiplication(String a, String b){
+        double a_double = Double.parseDouble(a);
+        double b_double = Double.parseDouble(b);
+
+        double result = Multiplication(a_double, b_double);
+        if (result % 1 == 0) {
+            return String.valueOf((long) result);
+        }
+        return String.valueOf(result);
+    }
+
+    /**
+     * @param a множитель
+     * @param b множитель
+     * @return Double result
      */
     static double Multiplication(double a, double b) {
         return a * b;
     }
 
     /**
-     * Метод деления цельночисленных чисел
-     *
      * @param a делимое
      * @param b делитель
-     * @return возвращает результат деления
+     * @return String result
      */
-    static int Division(int a, int b) {
-        int res = 1;
-        try {
-            res = a / b;
-        } catch (ArithmeticException e) {
-            System.out.println("Нельзя делить на ноль");
-        }
+    static String Division(String a, String b){
+        double a_double = Double.parseDouble(a);
+        double b_double = Double.parseDouble(b);
 
-        return res;
+        double result = Division(a_double, b_double);
+        if (result % 1 == 0) {
+            return String.valueOf((long) result);
+        }
+        return String.valueOf(result);
     }
 
     /**
-     * Метод деления вещественных чисел
-     *
      * @param a делимое
      * @param b делитель
-     * @return возвращает результат деления
+     * @return Double result
      */
     static double Division(double a, double b) {
         double res = 1.0;
@@ -81,14 +120,44 @@ class Cals {
     }
 
     /**
-     * Метод нахождения остатка
-     *
      * @param a 1 число
      * @param b 2 число
-     * @return возвращает остаток от деления
+     * @return String result
+     */
+    static String Remainder(String a, String b){
+        double a_double = Double.parseDouble(a);
+        double b_double = Double.parseDouble(b);
+
+        double result = Remainder(a_double, b_double);
+        if (result % 1 == 0) {
+            return String.valueOf((long) result);
+        }
+        return String.valueOf(result);
+    }
+
+    /**
+     * @param a 1 число
+     * @param b 2 число
+     * @return Double result
      */
     static double Remainder(double a, double b) {
         return a % b;
+    }
+
+    /**
+     * @param a основа
+     * @param b степень возведения
+     * @return String result
+     */
+    static String Pow(String a, String b){
+        double a_double = Double.parseDouble(a);
+        double b_double = Double.parseDouble(b);
+
+        double result = Pow(a_double, b_double);
+        if (result % 1 == 0) {
+            return String.valueOf((long) result);
+        }
+        return String.valueOf(result);
     }
 
     /**
@@ -96,7 +165,7 @@ class Cals {
      *
      * @param base     основа
      * @param exponent степень возведения
-     * @return результат
+     * @return Double result
      */
     static double Pow(double base, double exponent) {
         double res = 1.0;

@@ -36,13 +36,7 @@ public class CalsTest
 
         assertEquals(7.1, result);
     }
-
-    public void testDivisionInt() throws Exception{
-        int result = Cals.Division(21,7);
-
-        assertEquals(3, result);
-    }
-
+    
     public void testRemainder() throws Exception{
         double result = Cals.Remainder(21,6);
 

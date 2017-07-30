@@ -12,15 +12,14 @@ import java.util.Scanner;
 public class App {
     private static Scanner sc = new Scanner(System.in);
 
-    private static Map<String, Boolean> commands = new HashMap<String, Boolean>();
-    private static Map<Integer, String> sessions = new HashMap<Integer, String>();
+    private static Map<String, Boolean> commands = new HashMap<>();
+    private static Map<Integer, String> sessions = new HashMap<>();
 
     private static final String INPUT_FILE = "input_exp_cals.txt";
     private static final String OUTPUT_FILE = "output_result_cals.txt";
 
     public static void main(String[] args) {
         initOptions();
-        Boolean command;
         BufferedWriter buff = null;
 
         while (true) {
@@ -45,13 +44,13 @@ public class App {
             }
 
             if (commands.get(sessions.get(1))) {
-                System.out.println("Введите строку в формате:");
+                System.out.print("Введите строку в формате ([1 число][пробел][знак операций][пробел][2 число]): ");
 
                 while (true) {
                     int status;
                     String exp;
 
-                    System.out.print("[1 число][пробел][знак операций][пробел][2 число]: ");
+                    System.out.print("\n>: ");
                     exp = sc.nextLine();
 
                     if (sessions.get(2).contains("monitor")) {
@@ -62,8 +61,6 @@ public class App {
 
                     if (status == 0)
                         break;
-                    else if (status == 1)
-                        System.out.println("-----------------------------------------------");
                 }
             } else {
                 ArrayList<String> expData = FileInput();
@@ -77,16 +74,11 @@ public class App {
                 }
             }
 
-
-            command = inputCommand();
-
-            if (command) {
+            if (inputCommand()) {
                 if (!commands.get(sessions.get(2))) {
                     try {
                         assert buff != null;
                         buff.close();
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -94,6 +86,7 @@ public class App {
                 break;
             }
         }
+        System.out.println("Программа закрыта");
     }
 
     private static void initOptions() {
@@ -108,7 +101,7 @@ public class App {
     }
 
     private static void initSessions() {
-        System.out.println("Выберите тип вводной информации:");
+        System.out.print("Выберите тип вводной информации (default: keyboard): ");
         String temp_command;
 
         temp_command = sc.nextLine();
@@ -120,7 +113,7 @@ public class App {
             sessions.put(1, "keyboard");
 
 
-        System.out.println("Введите тип вывода:");
+        System.out.print("Введите тип вывода (default: monitor): ");
         temp_command = sc.nextLine();
         if (temp_command.contains("file_output"))
             sessions.put(2, temp_command);
@@ -152,11 +145,11 @@ public class App {
         int code = 1;
 
         if (isMatches(exp)) {
-            System.out.println(exp + " = " + Calculus(exp));
+            System.out.print(exp + " = " + Calculus(exp));
         } else if (exp.contains("exit")) {
             code = 0;
         } else {
-            System.out.println("Да ты ошибся батенька..");
+            System.out.print("Да ты ошибся батенька..");
         }
 
         return code;
@@ -170,20 +163,18 @@ public class App {
                 buff.write(exp + " = " + Calculus(exp) + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
-                System.err.println("---");
-                e.fillInStackTrace();
             }
         } else if (exp.contains("exit")) {
             code = 0;
         } else {
-            System.out.println("Да ты ошибся батенька..");
+            System.out.print("Да ты ошибся батенька..");
         }
 
         return code;
     }
 
     private static ArrayList<String> FileInput() {
-        ArrayList<String> expData = new ArrayList<String>();
+        ArrayList<String> expData = new ArrayList<>();
         String temp;
 
         try {
@@ -208,33 +199,25 @@ public class App {
     private static String Calculus(String exp) {
         String result;
         String[] words = exp.split(" ");
-        TypeOperator operator = TypeOperator.getOperator(words[1]);
 
-        double number_first = Double.valueOf(words[0]);
-        double number_second = Double.valueOf(words[2]);
-
-        switch (operator) {
+        switch (TypeOperator.getOperator(words[1])) {
             case Addition:
-                result = String.valueOf(Cals.Sum(number_first, number_second));
+                result = Cals.Sum(words[0], words[2]);
                 break;
             case Subtraction:
-                result = String.valueOf(Cals.Subtraction(number_first, number_second));
+                result = Cals.Subtraction(words[0], words[2]);
                 break;
             case Multiplication:
-                result = String.valueOf(Cals.Multiplication(number_first, number_second));
+                result = Cals.Multiplication(words[0], words[2]);
                 break;
             case Division:
-                if (words[0].contains(",") || words[1].contains(",")) {
-                    result = String.valueOf(Cals.Division(number_first, number_second));
-                } else {
-                    result = String.valueOf(Cals.Division(Integer.valueOf(words[0]), Integer.valueOf(words[2])));
-                }
+                result = Cals.Division(words[0], words[2]);
                 break;
             case POW:
-                result = String.valueOf(Cals.Pow(number_first, number_second));
+                result = Cals.Pow(words[0], words[2]);
                 break;
             case Remainder:
-                result = String.valueOf(Cals.Remainder(number_first, number_second));
+                result = Cals.Remainder(words[0], words[2]);
                 break;
             default:
                 result = "Знак операции не тот - возможны только = (+ - / * ^ %)";
