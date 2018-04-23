@@ -7,7 +7,7 @@
 
     <packaging>jar</packaging>
 
-    <name>cals</name>
+    <name>Cals</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -48,9 +48,7 @@
                 <version>2.4</version>
                 <configuration>
                     <archive>
-                        <manifest>
-                            <mainClass>ru.vadimushka_d.App</mainClass>
-                        </manifest>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
             </plugin>
