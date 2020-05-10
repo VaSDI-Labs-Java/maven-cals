@@ -9,7 +9,7 @@ public enum TypeOperator {
     POW("^"),
     None("none");
 
-    private String typeValue;
+    private final String typeValue;
 
     TypeOperator(String type) {
         typeValue = type;

@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.8</jdk.version>
+        <jdk.version>14</jdk.version>
     </properties>
 
 
@@ -64,8 +64,8 @@
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
-            <artifactId>annotations-java5</artifactId>
-            <version>RELEASE</version>
+            <artifactId>annotations</artifactId>
+            <version>16.0.2</version>
         </dependency>
     </dependencies>
 </project>

@@ -1,5 +1,7 @@
 package ru.vadimushka_d;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +12,10 @@ import java.util.Scanner;
  * App класс
  */
 public class App {
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
-    private static Map<String, Boolean> commands = new HashMap<>();
-    private static Map<Integer, String> sessions = new HashMap<>();
+    private static final Map<String, Boolean> commands = new HashMap<>();
+    private static final Map<Integer, String> sessions = new HashMap<>();
 
     private static final String INPUT_FILE = "input_exp_cals.txt";
     private static final String OUTPUT_FILE = "output_result_cals.txt";
@@ -33,7 +35,8 @@ public class App {
                     "\t\texit - выход из калькулятора\n" +
                     "\t\tcontinue - новый цикл работы калькулятора.");
             System.out.println("Теперь произойдет инициализация калькулятора.");
-            initSessions();
+            sessionsConstruct("Выберите тип вводной информации (default: keyboard): ", "file_input", "keyboard", 1);
+            sessionsConstruct("Введите тип вывода (default: monitor): ", "file_output", "monitor", 2);
 
             if (!commands.get(sessions.get(2))) {
                 try {
@@ -48,10 +51,9 @@ public class App {
 
                 while (true) {
                     int status;
-                    String exp;
 
                     System.out.print("\n>: ");
-                    exp = sc.nextLine();
+                    String exp = sc.nextLine();
 
                     if (sessions.get(2).contains("monitor")) {
                         status = Monitor(exp);
@@ -100,45 +102,24 @@ public class App {
         commands.put("continue", false);
     }
 
-    private static void initSessions() {
-        System.out.print("Выберите тип вводной информации (default: keyboard): ");
-        String temp_command;
-
-        temp_command = sc.nextLine();
-        if (temp_command.contains("file_input"))
-            sessions.put(1, temp_command);
-        else if (temp_command.contains("keyboard"))
-            sessions.put(1, temp_command);
-        else
-            sessions.put(1, "keyboard");
-
-
-        System.out.print("Введите тип вывода (default: monitor): ");
-        temp_command = sc.nextLine();
-        if (temp_command.contains("file_output"))
-            sessions.put(2, temp_command);
-        else if (temp_command.contains("monitor"))
-            sessions.put(2, temp_command);
-        else
-            sessions.put(2, "monitor");
-
+    /*
+     * //TODO нужно придумать нормальные имена
+     */
+    private static void sessionsConstruct(String answer, String input, String output, int position) {
+        System.out.print(answer);
+        String temp_command = sc.nextLine();
+        if (temp_command.contains(input)) {
+            sessions.put(position, temp_command);
+        } else if (temp_command.contains(output)) {
+            sessions.put(position, temp_command);
+        } else {
+            sessions.put(position, output);
+        }
     }
 
     private static boolean inputCommand() {
-        Boolean bool = false;
-        String temp_command;
-
         System.out.print("Введите команду: ");
-
-        if (sc.hasNextLine()) {
-            temp_command = sc.nextLine();
-            if (temp_command.contains("exit")) {
-                bool = true;
-            } else if (temp_command.contains("continue")) {
-                bool = false;
-            }
-        }
-        return bool;
+        return sc.nextLine().contains("exit");
     }
 
     private static int Monitor(String exp) {
@@ -173,6 +154,7 @@ public class App {
         return code;
     }
 
+    @NotNull
     private static ArrayList<String> FileInput() {
         ArrayList<String> expData = new ArrayList<>();
         String temp;
@@ -200,29 +182,15 @@ public class App {
         String result;
         String[] words = exp.split(" ");
 
-        switch (TypeOperator.getOperator(words[1])) {
-            case Addition:
-                result = Cals.Sum(words[0], words[2]);
-                break;
-            case Subtraction:
-                result = Cals.Subtraction(words[0], words[2]);
-                break;
-            case Multiplication:
-                result = Cals.Multiplication(words[0], words[2]);
-                break;
-            case Division:
-                result = Cals.Division(words[0], words[2]);
-                break;
-            case POW:
-                result = Cals.Pow(words[0], words[2]);
-                break;
-            case Remainder:
-                result = Cals.Remainder(words[0], words[2]);
-                break;
-            default:
-                result = "Знак операции не тот - возможны только = (+ - / * ^ %)";
-                break;
-        }
+        result = switch (TypeOperator.getOperator(words[1])) {
+            case Addition -> Cals.Sum(words[0], words[2]);
+            case Subtraction -> Cals.Subtraction(words[0], words[2]);
+            case Multiplication -> Cals.Multiplication(words[0], words[2]);
+            case Division -> Cals.Division(words[0], words[2]);
+            case POW -> Cals.Pow(words[0], words[2]);
+            case Remainder -> Cals.Remainder(words[0], words[2]);
+            default -> "Знак операции не тот - возможны только = (+ - / * ^ %)";
+        };
         return result;
     }
 
